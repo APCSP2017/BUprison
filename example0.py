@@ -1,4 +1,4 @@
-####
+=####
 # Each team's file must define four tokens:
 #     team_name: a string
 #     strategy_name: a string
@@ -6,7 +6,7 @@
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'E0'
+team_name = 'The Crusher'
 strategy_name = 'Collude'
 strategy_description = 'Always collude.'
     
