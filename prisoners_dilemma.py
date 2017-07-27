@@ -1,7 +1,4 @@
-from __future__ import print_function
-
-##### 
-# Computer Science and Software Engineering
+'''# Computer Science and Software Engineering
 # PLTW AP CS Principles
 # (c)2014 Project Lead The Way, Inc.
 #
@@ -29,7 +26,8 @@ from __future__ import print_function
 # play a tournament. To run the tournament of [team, team1, team1, example1]:
 # scores, moves, reports = main_play([team1]*3+[example1])
 # section0, section1, section2, section3 = reports
-#######
+#######'''
+from __future__ import print_function
 import random
 import os.path              
     
