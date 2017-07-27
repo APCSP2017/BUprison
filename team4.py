@@ -4,7 +4,7 @@
 #     strategy_name: a string
 #     strategy_description: a string
 #     move: A function that returns 'c' or 'b'
-####
+#####
 
 team_name = 'Barnyard Gals' # Only 10 chars displayed.
 strategy_name = 'Be nice until you f us'
