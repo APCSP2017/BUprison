@@ -1,0 +1,1966 @@
+--------------------------------------------------------------------------------
+Section 0 - Line up
+--------------------------------------------------------------------------------
+Player 0 (P0): SchnitHead, Collude until Betrayed
+        Lack of programming background
+Player 1 (P1): hotdogs, We trust unless you betray
+        Look at opponent history for "b".
+Player 2 (P2): Stealers, Play nice, then stop if they stop.
+        Collude until betray, then betray.
+Player 3 (P3): Rushed, Always Opposite
+        Do the opposite of oppents last choice
+Player 4 (P4): Barnyard Gals, Be nice until you f us
+        Use the teams history to determine our play
+Player 5 (P5): BonnieandClyde, The name the team gives to this strategy
+        How does this strategy decide?
+Player 6 (P6): Binary Coders, The name the team gives to this strategy
+        How does this strategy decide?
+Player 7 (P7): GoChem, Check my history and  their history  to mine 
+        Check even give b or random b or c
+Player 8 (P8): Nu Shues, Minimize risk
+        Betray if behind in score, otherwise collude
+Player 9 (P9): You're Going Down, Never forgive, never forget
+        Collude until betrayed, then always betray
+Player 10 (P10): The name the team gives to itself, The name the team gives to this strategy
+        How does this strategy decide?
+--------------------------------------------------------------------------------
+Section 1 - Player vs. Player
+--------------------------------------------------------------------------------
+Each column shows pts/round earned against each other player:
+             P0     P1     P2     P3     P4     P5     P6     P7     P8     P9    P10
+vs. P0 :      0      0      0   -493   -486   -249   -238   -249      0   -495   -238
+vs. P1 :      0      0      0   -153   -190   -243   -240   -247      0     -3    -22
+vs. P2 :      0      0      0   -494   -480   -248   -210   -248      0   -496   -234
+vs. P3 :     94   -176     92      0     97     97     15    -75   -164    100   -176
+vs. P4 :     84   -196     78   -496      0    100    -16    -80   -194    100   -165
+vs. P5 :   -252   -256   -252   -499   -500      0   -252   -250   -252   -499   -273
+vs. P6 :   -238   -244   -210   -392   -292   -248      0   -248   -225    -87   -237
+vs. P7 :   -252   -253   -253   -375   -372   -250   -252      0   -252   -373   -368
+vs. P8 :      0      0      0   -164   -191   -248   -221   -249      0     -4    -17
+vs. P9 :     94    -16     94   -500   -500     97     11    -79     -4      0    -32
+vs. P10 :   -235    -22   -230   -179   -229   -219   -234    -86    -17    -42      0
+TOTAL  :   -705  -1163   -681  -3745  -3143  -1411  -1637  -1811  -1108  -1799  -1762
+--------------------------------------------------------------------------------
+Section 2 - Leaderboard
+--------------------------------------------------------------------------------
+Average points per round:
+Team name (P#):  Score      with strategy name
+Stealers  (P2):        -62 points with Play nice, then stop if they stop.      
+SchnitHead(P0):        -65 points with Collude until Betrayed                  
+Nu Shues  (P8):       -101 points with Minimize risk                           
+hotdogs   (P1):       -106 points with We trust unless you betray              
+BonnieandC(P5):       -129 points with The name the team gives to this strategy
+Binary Cod(P6):       -149 points with The name the team gives to this strategy
+The name t(P10):       -161 points with The name the team gives to this strategy
+You're Goi(P9):       -164 points with Never forgive, never forget             
+GoChem    (P7):       -165 points with Check my history and  their history  to 
+Barnyard G(P4):       -286 points with Be nice until you f us                  
+Rushed    (P3):       -341 points with Always Opposite                         
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+team0--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'SchnitHead' # Only 10 chars displayed.
+strategy_name = 'Collude until Betrayed'
+strategy_description = 'Lack of programming background'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+    if 'b' in their_history:
+        return 'b'
+    else:
+        return 'c'
+   
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    #return 'c'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team1--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'hotdogs' # Only 10 chars displayed.
+strategy_name = 'We trust unless you betray'
+strategy_description = 'Look at opponent history for "b".'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    if len(their_history) < 4:
+        return 'c'
+    else:
+        for i in range(len(their_history)):
+            if their_history[i-1] == 'c':
+                return 'c'
+            else:
+                return 'b'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team2--------------------------------------------------------------------------------
+import random
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Stealers' # Only 10 chars displayed.
+strategy_name = 'Play nice, then stop if they stop.'
+strategy_description = 'Collude until betray, then betray.'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+
+    
+    if 'b' in their_history:
+        return 'b'
+    else:
+        return 'c'
+    '''
+    if len(my_history) == 0:
+       return 'c'
+    else:
+        their_last_choice = their_history[-1].lower()
+        our_last_choice = my_history[-1].lower()
+        # based on their last choice make our choice
+        if our_last_choice == 'c' and their_last_choice == 'c':
+            x = random.randint(1,100)
+            # 99% chance we'll do a 'c'
+            if x <= 99:
+                return 'c'
+            else:
+                return 'b'
+        elif our_last_choice == 'c' and their_last_choice == 'b':
+            return 'b'
+        elif our_last_choice == 'b' and their_last_choice == 'c':
+            x = random.randint(1,3)
+            # 33% chance we'll do a 'c'
+            if x == 1:
+                return 'c'
+            else:
+                return 'b'
+        else: # if we both chose b
+            return 'b'
+        '''
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team3--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+from __future__ import print_function
+import matplotlib.pyplot as plt # standard short name
+import random
+
+
+team_name = 'Rushed' # Only 10 chars displayed.
+strategy_name = 'Always Opposite'
+strategy_description = 'Do the opposite of oppents last choice'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    x=len(my_history)
+    them=len(their_history)-1    
+    
+    if x==0:
+        pick=random.choice(['c','b'])
+        return pick
+    else:
+        if their_history[them]=='c':
+            return 'b'
+        else:
+            return 'c'
+            
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    return 'c'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+--------------------------------------------------------------------------------
+team4--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+######
+
+team_name = 'Barnyard Gals' # Only 10 chars displayed.
+strategy_name = 'Be nice until you f us'
+strategy_description = 'Use the teams history to determine our play'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.'''
+    if len(my_history)==0: 
+        return 'c'
+    else:
+        if their_history.count('b')> 2*their_history.count('c'):
+            return 'c'
+        elif 0.5*their_history.count('c') < their_history.count('b') and their_history.count('b') <= 2*their_history.count('c'):
+            for a in range(len(my_history)):
+                if my_history[a] == 'c':
+                    return 'b'
+                else:
+                    return 'c'
+        else:
+            return 'b'
+   --------------------------------------------------------------------------------
+team5--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'BonnieandClyde' # Only 10 chars displayed.
+strategy_name = 'The name the team gives to this strategy'
+strategy_description = 'How does this strategy decide?'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    return 'b'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team6--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Binary Coders' # Only 10 chars displayed.
+strategy_name = 'The name the team gives to this strategy'
+strategy_description = 'How does this strategy decide?'
+
+import random
+
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    
+    if 'b' in their_history[-10:]: # If the other player has betrayed within last 10 rounds, 
+        return 'b'               # Betray.
+    else:
+        if random.random()<0.1: # 10% of the other rounds
+            return 'b'         # Betray
+        else:
+            return 'c'
+        
+    
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team7--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'GoChem' # Only 10 chars displayed.
+strategy_name = 'Check my history and  their history  to mine '
+strategy_description = 'Check even give b or random b or c' 
+    
+
+import random
+    
+def move(my_history, their_history, my_score, their_score):
+    if len(their_history)%2:
+        return 'b'
+        if len(their_history)%3:
+            return random.choice(['b','c'])
+#Make my move based on the history with this player.
+    
+ #   if their length is even return b and if their length %3 then the random will 
+  #  pick c or b.
+    
+   # Returns 'c' or 'b' for collude or betray.--------------------------------------------------------------------------------
+team8--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'Nu Shues' # Only 10 chars displayed.
+strategy_name = 'Minimize risk'
+strategy_description = 'Betray if behind in score, otherwise collude'
+    
+def move(my_history, their_history, my_score, their_score):
+    '''Make my move based on the history with this player.
+       I'm willing to collude (and keep colluding) until I'm betrayed.
+       At that point, betray until the opponent colludes    
+    '''
+    if my_score >= their_score:
+        return 'c' # Collude if you're tied or ahead
+    else:
+        return 'b' # Otherwise betray and try and 'even up' with opponent.
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team9--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'You\'re Going Down' # Only 10 chars displayed.
+strategy_name = 'Never forgive, never forget'
+strategy_description = 'Collude until betrayed, then always betray'
+    
+def move(my_history, their_history, my_score, their_score):
+    ''' Arguments accepted: my_history, their_history are strings.
+    my_score, their_score are ints.
+    
+    Make my move.
+    Returns 'c' or 'b'. 
+    '''
+
+    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
+    # their_history: a string of the same length as history, possibly empty. 
+    # The first round between these two players is my_history[0] and their_history[0].
+    # The most recent round is my_history[-1] and their_history[-1].
+    
+    # Analyze my_history and their_history and/or my_score and their_score.
+    # Decide whether to return 'c' or 'b'.
+    if 'b' in their_history:
+        return 'c'
+    else:
+        return 'b'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+team10--------------------------------------------------------------------------------
+####
+# Each team's file must define four tokens:
+#     team_name: a string
+#     strategy_name: a string
+#     strategy_description: a string
+#     move: A function that returns 'c' or 'b'
+####
+
+team_name = 'The name the team gives to itself' # Only 10 chars displayed.
+strategy_name = 'The name the team gives to this strategy'
+strategy_description = 'How does this strategy decide?'
+    
+def move(my_history, their_history, my_score, their_score):
+    opp_b = 0
+    opp_c = 0
+    if len(their_history)<10: #It's the first round: collude
+        return 'c'
+    elif len(their_history)<20:
+        return 'b'
+    else:
+        for choice in their_history:
+            if choice == 'b':
+                opp_b += 1
+            else:
+                opp_c += 1
+        if opp_c != 0:
+            percentage = float(opp_b / opp_c)
+        else:
+            return 'b'
+        if percentage >= 1:
+            return 'b'
+        else:
+            return 'c'
+
+    
+def test_move(my_history, their_history, my_score, their_score, result):
+    '''calls move(my_history, their_history, my_score, their_score)
+    from this module. Prints error if return value != result.
+    Returns True or False, dpending on whether result was as expected.
+    '''
+    real_result = move(my_history, their_history, my_score, their_score)
+    if real_result == result:
+        return True
+    else:
+        print("move(" +
+            ", ".join(["'"+my_history+"'", "'"+their_history+"'",
+                       str(my_score), str(their_score)])+
+            ") returned " + "'" + real_result + "'" +
+            " and should have returned '" + result + "'")
+        return False
+
+if __name__ == '__main__':
+     
+    # Test 1: Betray on first move.
+    if test_move(my_history='',
+              their_history='', 
+              my_score=0,
+              their_score=0,
+              result='b'):
+         print 'Test passed'
+     # Test 2: Continue betraying if they collude despite being betrayed.
+    test_move(my_history='bbb',
+              their_history='ccc', 
+              # Note the scores are for testing move().
+              # The history and scores don't need to match unless
+              # that is relevant to the test of move(). Here,
+              # the simulation (if working correctly) would have awarded 
+              # 300 to me and -750 to them. This test will pass if and only if
+              # move('bbb', 'ccc', 0, 0) returns 'b'.
+              my_score=0, 
+              their_score=0,
+              result='b')             --------------------------------------------------------------------------------
+Section 3 - Game Data for Team SchnitHead
+--------------------------------------------------------------------------------
+0 pt/round: SchnitHead(P0) "Collude until Betrayed"
+0 pt/round: hotdogs(P1) "We trust unless you betray"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+0 pt/round: SchnitHead(P0) "Collude until Betrayed"
+0 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+94 pt/round: SchnitHead(P0) "Collude until Betrayed"
+-493 pt/round: Rushed(P3) "Always Opposite"
+CcbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+CBbccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+84 pt/round: SchnitHead(P0) "Collude until Betrayed"
+-486 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+CcbbbbbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+CBbbbbbccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+-252 pt/round: SchnitHead(P0) "Collude until Betrayed"
+-249 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-238 pt/round: SchnitHead(P0) "Collude until Betrayed"
+-238 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+CCCCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: SchnitHead(P0) "Collude until Betrayed"
+-249 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+ccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+bbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b
+
+--------------------------------------------------------------------------------
+0 pt/round: SchnitHead(P0) "Collude until Betrayed"
+0 pt/round: Nu Shues(P8) "Minimize risk"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+94 pt/round: SchnitHead(P0) "Collude until Betrayed"
+-495 pt/round: You're Going Down(P9) "Never forgive, never forget"
+cbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+Bbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBB
+ccccccccc
+
+--------------------------------------------------------------------------------
+-235 pt/round: SchnitHead(P0) "Collude until Betrayed"
+-238 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+CCCCCCCCCCcbbbbbbbbbBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCBbbbbbbbbbccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team hotdogs
+--------------------------------------------------------------------------------
+0 pt/round: hotdogs(P1) "We trust unless you betray"
+0 pt/round: SchnitHead(P0) "Collude until Betrayed"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+0 pt/round: hotdogs(P1) "We trust unless you betray"
+0 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-176 pt/round: hotdogs(P1) "We trust unless you betray"
+-153 pt/round: Rushed(P3) "Always Opposite"
+ccccbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCc
+BBBBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCB
+
+bBCcbBCcbBCcbBCcbBCcbBCc
+bcCBbcCBbcCBbcCBbcCBbcCB
+
+--------------------------------------------------------------------------------
+-196 pt/round: hotdogs(P1) "We trust unless you betray"
+-190 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+CcccbbbbbbbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbB
+CBBBbbbbbbbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbc
+
+CcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCc
+CBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCB
+
+bbbBCcbbbBCcbbbBCcbbbBCcbbbBC
+bbbcCBbbbcCBbbbcCBbbbcCBbbbcC
+
+--------------------------------------------------------------------------------
+-256 pt/round: hotdogs(P1) "We trust unless you betray"
+-243 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+ccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+BBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-244 pt/round: hotdogs(P1) "We trust unless you betray"
+-240 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+CCCCcBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCBcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-253 pt/round: hotdogs(P1) "We trust unless you betray"
+-247 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+ccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ B B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b b b b b b b b b b
+
+--------------------------------------------------------------------------------
+0 pt/round: hotdogs(P1) "We trust unless you betray"
+0 pt/round: Nu Shues(P8) "Minimize risk"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-16 pt/round: hotdogs(P1) "We trust unless you betray"
+-3 pt/round: You're Going Down(P9) "Never forgive, never forget"
+ccccbBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+BBBBbcCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-22 pt/round: hotdogs(P1) "We trust unless you betray"
+-22 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+CCCCCCCCCCcbbbbbbbbbBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCBbbbbbbbbbcCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Stealers
+--------------------------------------------------------------------------------
+0 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+0 pt/round: SchnitHead(P0) "Collude until Betrayed"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+0 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+0 pt/round: hotdogs(P1) "We trust unless you betray"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+92 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+-494 pt/round: Rushed(P3) "Always Opposite"
+cbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+Bbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+ccccccccccccccccccccccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+78 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+-480 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+CcbbbbbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+CBbbbbbccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+ccccccccccccccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+-252 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+-248 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbb
+bbbbbbbb
+
+--------------------------------------------------------------------------------
+-210 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+-210 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+CCCCCCCCCCCCCCCCCCCCCCCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCCCCCCCCCCCCCCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-253 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+-248 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+ccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b b b b b b b b b b b b 
+
+--------------------------------------------------------------------------------
+0 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+0 pt/round: Nu Shues(P8) "Minimize risk"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+94 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+-496 pt/round: You're Going Down(P9) "Never forgive, never forget"
+cbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+Bbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBB
+ccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+-230 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+-234 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+CCCCCCCCCCcbbbbbbbbbBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCBbbbbbbbbbccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Rushed
+--------------------------------------------------------------------------------
+-493 pt/round: Rushed(P3) "Always Opposite"
+94 pt/round: SchnitHead(P0) "Collude until Betrayed"
+CBbccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+CcbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+-153 pt/round: Rushed(P3) "Always Opposite"
+-176 pt/round: hotdogs(P1) "We trust unless you betray"
+BBBBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCB
+ccccbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCc
+
+bcCBbcCBbcCBbcCBbcCBbcCB
+bBCcbBCcbBCcbBCcbBCcbBCc
+
+--------------------------------------------------------------------------------
+-494 pt/round: Rushed(P3) "Always Opposite"
+92 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+Bbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+ccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+-496 pt/round: Rushed(P3) "Always Opposite"
+97 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+Cbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+CbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+ccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+-499 pt/round: Rushed(P3) "Always Opposite"
+97 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+bccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+bBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+-392 pt/round: Rushed(P3) "Always Opposite"
+15 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+CBbccccccccccCBbccccccccccCBbccccccccccCBbccccccccccCBbcccccccccccCBbccccccccccC
+CcbBBBBBBBBBBCcbBBBBBBBBBBCcbBBBBBBBBBBCcbBBBBBBBBBBCcbBBBBBBBBBBBCcbBBBBBBBBBBC
+
+BbccccccccccCBbccccccccccCBbcccc
+cbBBBBBBBBBBCcbBBBBBBBBBBCcbBBBB
+
+--------------------------------------------------------------------------------
+-375 pt/round: Rushed(P3) "Always Opposite"
+-75 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+
+cccccccc
+ B B B B
+
+--------------------------------------------------------------------------------
+-164 pt/round: Rushed(P3) "Always Opposite"
+-164 pt/round: Nu Shues(P8) "Minimize risk"
+BbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcC
+cbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBC
+
+BbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbc
+cbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbB
+
+--------------------------------------------------------------------------------
+-500 pt/round: Rushed(P3) "Always Opposite"
+100 pt/round: You're Going Down(P9) "Never forgive, never forget"
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+-179 pt/round: Rushed(P3) "Always Opposite"
+-176 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+CBBBBBBBBBbccccccccccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbc
+CcccccccccbBBBBBBBBBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbB
+
+cCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccC
+BCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBC
+
+BBbccCBBbccCBBbccCBBbcc
+ccbBBCccbBBCccbBBCccbBB
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Barnyard Gals
+--------------------------------------------------------------------------------
+-486 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+84 pt/round: SchnitHead(P0) "Collude until Betrayed"
+CBbbbbbccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+CcbbbbbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+-190 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+-196 pt/round: hotdogs(P1) "We trust unless you betray"
+CBBBbbbbbbbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbc
+CcccbbbbbbbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbB
+
+CBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCB
+CcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCc
+
+bbbcCBbbbcCBbbbcCBbbbcCBbbbcC
+bbbBCcbbbBCcbbbBCcbbbBCcbbbBC
+
+--------------------------------------------------------------------------------
+-480 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+78 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+CBbbbbbccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+CcbbbbbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+ccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+97 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+-496 pt/round: Rushed(P3) "Always Opposite"
+CbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+Cbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBB
+ccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+-500 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+100 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccc
+BBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+-292 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+-16 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+CBbbbbbccccccccccCCCCCCBbbbbccccccccccCCCCCCBbbbbccccccccccCCcCCCCBbbbcccccccccc
+CcbbbbbBBBBBBBBBBCCCCCCcbbbbBBBBBBBBBBCCCCCCcbbbbBBBBBBBBBBCCBCCCCcbbbBBBBBBBBBB
+
+CCCCCCbbccccccccccCCCCCCBbbbbccccccccccCCcCCCCBbbbccccccccccCCCCCCBbbbbccccccccc
+CCCCCCbbBBBBBBBBBBCCCCCCcbbbbBBBBBBBBBBCCBCCCCcbbbBBBBBBBBBBCCCCCCcbbbbBBBBBBBBB
+
+cCC
+BCC
+
+--------------------------------------------------------------------------------
+-372 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+-80 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+cbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ b B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+
+ccccccccccccccccccccccccccccccccccccccccccc
+ B B B B B B B B B B B B B B B B B B B B B 
+
+--------------------------------------------------------------------------------
+-191 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+-194 pt/round: Nu Shues(P8) "Minimize risk"
+CBbbbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbc
+CcbbbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbB
+
+CBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCB
+CcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCc
+
+bbbcCBbb
+bbbBCcbb
+
+--------------------------------------------------------------------------------
+-500 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+100 pt/round: You're Going Down(P9) "Never forgive, never forget"
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+ccc
+BBB
+
+--------------------------------------------------------------------------------
+-229 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+-165 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+CBBBBBBBBBbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccCCCCCCCCCCCCCCCCBBB
+CcccccccccbbbbbbbbbbbbbbbbbbbbbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCccc
+
+BBBBBBBBBBBBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccc
+ccccccccccccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team BonnieandClyde
+--------------------------------------------------------------------------------
+-249 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-252 pt/round: SchnitHead(P0) "Collude until Betrayed"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-243 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-256 pt/round: hotdogs(P1) "We trust unless you betray"
+BBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-252 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbb
+bbbbbbbb
+
+--------------------------------------------------------------------------------
+97 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-499 pt/round: Rushed(P3) "Always Opposite"
+bBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+bccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+100 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-500 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBB
+cccccccccccccccc
+
+--------------------------------------------------------------------------------
+-248 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-252 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbb
+bbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-250 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-250 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+--------------------------------------------------------------------------------
+-248 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-252 pt/round: Nu Shues(P8) "Minimize risk"
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+97 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-499 pt/round: You're Going Down(P9) "Never forgive, never forget"
+bBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+bccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBB
+cccccccccccc
+
+--------------------------------------------------------------------------------
+-219 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+-273 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+BBBBBBBBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ccccccccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Binary Coders
+--------------------------------------------------------------------------------
+-238 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-238 pt/round: SchnitHead(P0) "Collude until Betrayed"
+CCCCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-240 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-244 pt/round: hotdogs(P1) "We trust unless you betray"
+CCCCBcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCcBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-210 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-210 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+CCCCCCCCCCCCCCCCCCCCCCCCCCBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCCCCCCCCCCCCCCCCCcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+15 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-392 pt/round: Rushed(P3) "Always Opposite"
+CcbBBBBBBBBBBCcbBBBBBBBBBBCcbBBBBBBBBBBCcbBBBBBBBBBBCcbBBBBBBBBBBBCcbBBBBBBBBBBC
+CBbccccccccccCBbccccccccccCBbccccccccccCBbccccccccccCBbcccccccccccCBbccccccccccC
+
+cbBBBBBBBBBBCcbBBBBBBBBBBCcbBBBB
+BbccccccccccCBbccccccccccCBbcccc
+
+--------------------------------------------------------------------------------
+-16 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-292 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+CcbbbbbBBBBBBBBBBCCCCCCcbbbbBBBBBBBBBBCCCCCCcbbbbBBBBBBBBBBCCBCCCCcbbbBBBBBBBBBB
+CBbbbbbccccccccccCCCCCCBbbbbccccccccccCCCCCCBbbbbccccccccccCCcCCCCBbbbcccccccccc
+
+CCCCCCbbBBBBBBBBBBCCCCCCcbbbbBBBBBBBBBBCCBCCCCcbbbBBBBBBBBBBCCCCCCcbbbbBBBBBBBBB
+CCCCCCbbccccccccccCCCCCCBbbbbccccccccccCCcCCCCBbbbccccccccccCCCCCCBbbbbccccccccc
+
+BCC
+cCC
+
+--------------------------------------------------------------------------------
+-252 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-248 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbb
+bbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-248 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+ccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b b b b b b b b b b b b b b
+
+--------------------------------------------------------------------------------
+-221 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-225 pt/round: Nu Shues(P8) "Minimize risk"
+CCCCCCCCCCCCCCCCCCCBcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCCCCCCCCCCcBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+11 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-87 pt/round: You're Going Down(P9) "Never forgive, never forget"
+cbBBBBBBBBBBCCBCBCCCCCCCCCCBCCCCCCBCCCCCCCCCCCCCCCBCCBCCCBCBCCCBCCCCBCCCCCCCCCCC
+BbccccccccccCCcCcCCCCCCCCCCcCCCCCCcCCCCCCCCCCCCCCCcCCcCCCcCcCCCcCCCCcCCCCCCCCCCC
+
+CBCCCCBCCCCCCCCCCCCCBCCCCCCCCCCCCCCCCCCCCBCCCCCCCCCCCCCCCCBCCCCCCC
+CcCCCCcCCCCCCCCCCCCCcCCCCCCCCCCCCCCCCCCCCcCCCCCCCCCCCCCCCCcCCCCCCC
+
+--------------------------------------------------------------------------------
+-234 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+-237 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+CCCCCCCCCCcbbbbbbbbbBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCBbbbbbbbbbccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team GoChem
+--------------------------------------------------------------------------------
+-249 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-252 pt/round: SchnitHead(P0) "Collude until Betrayed"
+ B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+ccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+ b b b b b b b b b b
+bbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-247 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-253 pt/round: hotdogs(P1) "We trust unless you betray"
+ B B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+ccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+ b b b b b b b b b b b b b b b b b b b
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-253 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+ B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+ccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+ b b b b b b b b b b b b b b b b b b b b b 
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-75 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-375 pt/round: Rushed(P3) "Always Opposite"
+ B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+ B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+ B B B B
+cccccccc
+
+--------------------------------------------------------------------------------
+-80 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-372 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+ b B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+cbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+ B B B B B B B B B B B B B B B B B B B B B 
+ccccccccccccccccccccccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+-250 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-250 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-248 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-252 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+ B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+ccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+ b b b b b b b b b b b b b b b b b b b b b b b
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-249 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-252 pt/round: Nu Shues(P8) "Minimize risk"
+ B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+ccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+ b b b b b b b b b b b b b b b b
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-79 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-373 pt/round: You're Going Down(P9) "Never forgive, never forget"
+ b B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+bbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+ B B B B B B B B B B B B B B B B
+cccccccccccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+-86 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+-368 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+ B B B B B b b b b b B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+ccccccccccbbbbbbbbbbbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+
+ B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+
+ B B B B B B B B B 
+bcbcbcbcbcbcbcbcbcb
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team Nu Shues
+--------------------------------------------------------------------------------
+0 pt/round: Nu Shues(P8) "Minimize risk"
+0 pt/round: SchnitHead(P0) "Collude until Betrayed"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+0 pt/round: Nu Shues(P8) "Minimize risk"
+0 pt/round: hotdogs(P1) "We trust unless you betray"
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+0 pt/round: Nu Shues(P8) "Minimize risk"
+0 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-164 pt/round: Nu Shues(P8) "Minimize risk"
+-164 pt/round: Rushed(P3) "Always Opposite"
+cbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBC
+BbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcC
+
+cbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbBCcbB
+BbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbcCBbc
+
+--------------------------------------------------------------------------------
+-194 pt/round: Nu Shues(P8) "Minimize risk"
+-191 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+CcbbbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbB
+CBbbbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbc
+
+CcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCcbbbBCc
+CBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCBbbbcCB
+
+bbbBCcbb
+bbbcCBbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: Nu Shues(P8) "Minimize risk"
+-248 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+cbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-225 pt/round: Nu Shues(P8) "Minimize risk"
+-221 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+CCCCCCCCCCCCCCCCCCCcBcbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCCCCCCCCCCBcBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-252 pt/round: Nu Shues(P8) "Minimize risk"
+-249 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+ccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ B b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+ b b b b b b b b b b b b b b b b
+
+--------------------------------------------------------------------------------
+-4 pt/round: Nu Shues(P8) "Minimize risk"
+-4 pt/round: You're Going Down(P9) "Never forgive, never forget"
+cbBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+BbcCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-17 pt/round: Nu Shues(P8) "Minimize risk"
+-17 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+CCCCCCCCCCcbbbbbbbbbBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCBbbbbbbbbbcCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team You're Going Down
+--------------------------------------------------------------------------------
+-495 pt/round: You're Going Down(P9) "Never forgive, never forget"
+94 pt/round: SchnitHead(P0) "Collude until Betrayed"
+Bbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+ccccccccc
+BBBBBBBBB
+
+--------------------------------------------------------------------------------
+-3 pt/round: You're Going Down(P9) "Never forgive, never forget"
+-16 pt/round: hotdogs(P1) "We trust unless you betray"
+BBBBbcCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+ccccbBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-496 pt/round: You're Going Down(P9) "Never forgive, never forget"
+94 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+Bbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+ccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+100 pt/round: You're Going Down(P9) "Never forgive, never forget"
+-500 pt/round: Rushed(P3) "Always Opposite"
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+--------------------------------------------------------------------------------
+100 pt/round: You're Going Down(P9) "Never forgive, never forget"
+-500 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+BBB
+ccc
+
+--------------------------------------------------------------------------------
+-499 pt/round: You're Going Down(P9) "Never forgive, never forget"
+97 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+bccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+bBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+cccccccccccc
+BBBBBBBBBBBB
+
+--------------------------------------------------------------------------------
+-87 pt/round: You're Going Down(P9) "Never forgive, never forget"
+11 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+BbccccccccccCCcCcCCCCCCCCCCcCCCCCCcCCCCCCCCCCCCCCCcCCcCCCcCcCCCcCCCCcCCCCCCCCCCC
+cbBBBBBBBBBBCCBCBCCCCCCCCCCBCCCCCCBCCCCCCCCCCCCCCCBCCBCCCBCBCCCBCCCCBCCCCCCCCCCC
+
+CcCCCCcCCCCCCCCCCCCCcCCCCCCCCCCCCCCCCCCCCcCCCCCCCCCCCCCCCCcCCCCCCC
+CBCCCCBCCCCCCCCCCCCCBCCCCCCCCCCCCCCCCCCCCBCCCCCCCCCCCCCCCCBCCCCCCC
+
+--------------------------------------------------------------------------------
+-373 pt/round: You're Going Down(P9) "Never forgive, never forget"
+-79 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+bbcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ b B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+
+cccccccccccccccccccccccccccccccc
+ B B B B B B B B B B B B B B B B
+
+--------------------------------------------------------------------------------
+-4 pt/round: You're Going Down(P9) "Never forgive, never forget"
+-4 pt/round: Nu Shues(P8) "Minimize risk"
+BbcCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+cbBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-42 pt/round: You're Going Down(P9) "Never forgive, never forget"
+-32 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+BBBBBBBBBBbccccccccccccCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+ccccccccccbBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Section 3 - Game Data for Team The name the team gives to itself
+--------------------------------------------------------------------------------
+-238 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-235 pt/round: SchnitHead(P0) "Collude until Betrayed"
+CCCCCCCCCCBbbbbbbbbbccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCcbbbbbbbbbBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-22 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-22 pt/round: hotdogs(P1) "We trust unless you betray"
+CCCCCCCCCCBbbbbbbbbbcCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCcbbbbbbbbbBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-234 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-230 pt/round: Stealers(P2) "Play nice, then stop if they stop."
+CCCCCCCCCCBbbbbbbbbbccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCcbbbbbbbbbBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-176 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-179 pt/round: Rushed(P3) "Always Opposite"
+CcccccccccbBBBBBBBBBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbB
+CBBBBBBBBBbccccccccccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbc
+
+BCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBCccbBBC
+cCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccCBBbccC
+
+ccbBBCccbBBCccbBBCccbBB
+BBbccCBBbccCBBbccCBBbcc
+
+--------------------------------------------------------------------------------
+-165 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-229 pt/round: Barnyard Gals(P4) "Be nice until you f us"
+CcccccccccbbbbbbbbbbbbbbbbbbbbbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCccc
+CBBBBBBBBBbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccCCCCCCCCCCCCCCCCBBB
+
+ccccccccccccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbBBBBBBBBBBB
+BBBBBBBBBBBBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccc
+
+--------------------------------------------------------------------------------
+-273 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-219 pt/round: BonnieandClyde(P5) "The name the team gives to this strategy"
+ccccccccccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+BBBBBBBBBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-237 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-234 pt/round: Binary Coders(P6) "The name the team gives to this strategy"
+CCCCCCCCCCBbbbbbbbbbccbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+CCCCCCCCCCcbbbbbbbbbBBbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+bbbbbbbbbbbbbbb
+bbbbbbbbbbbbbbb
+
+--------------------------------------------------------------------------------
+-368 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-86 pt/round: GoChem(P7) "Check my history and  their history  to mine "
+ccccccccccbbbbbbbbbbbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+ B B B B B b b b b b B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+
+bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc
+ B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B
+
+bcbcbcbcbcbcbcbcbcb
+ B B B B B B B B B 
+
+--------------------------------------------------------------------------------
+-17 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-17 pt/round: Nu Shues(P8) "Minimize risk"
+CCCCCCCCCCBbbbbbbbbbcCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCcbbbbbbbbbBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------
+-32 pt/round: The name the team gives to itself(P10) "The name the team gives to this strategy"
+-42 pt/round: You're Going Down(P9) "Never forgive, never forget"
+ccccccccccbBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+BBBBBBBBBBbccccccccccccCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+--------------------------------------------------------------------------------

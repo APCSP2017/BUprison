@@ -13,7 +13,7 @@ strategy_description = 'Check even give b or random b or c'
 
 import random
     
-def move(my_history, their_history):
+def move(my_history, their_history, my_score, their_score):
     if len(their_history)%2:
         return 'b'
         if len(their_history)%3:
